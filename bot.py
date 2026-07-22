@@ -25,13 +25,30 @@ class MinimaxBot:
         score = self.evaluate_board(board)
         
         # Forces the recursion to return early if the depth is surpassing the dedicated number
-        if depth >= 9: 
+        if depth >= 9: # robot possibility: reduce the number for human to win
             return score
         
         # Base cases: return static scores adjusted by depth
         if score == 10: return score - depth
         if score == -10: return score + depth
         if "" not in board: return 0
+
+        if is_maximizing:
+            best = -float('inf')
+            for i in range(9):
+                if board[i] == "":
+                    board[i] = self.bot  # try bot move
+                    best = max(best, self.minimax(board, depth + 1, False))
+                    board[i] = ""  # undo move
+            return best
+        else:
+            best = float('inf')
+            for i in range(9):
+                if board[i] == "":
+                    board[i] = self.human  # try human move
+                    best = min(best, self.minimax(board, depth + 1, True))
+                    board[i] = ""  # undo move
+            return best
 
         # --- CODE PLACEHOLDER ---
         # Implement the recursive minimax search here.

@@ -33,14 +33,17 @@ class MinimaxBot:
         if score == -10: return score + depth
         if "" not in board: return 0
 
-        # --- CODE PLACEHOLDER ---
-        # Implement the recursive minimax search here.
-        # Steps to complete:
-        #  1) Iterate over every empty cell in the board.
-        #  2) Simulate a move for either self.bot or self.human.
-        #  3) Recursively call minimax with depth + 1 and toggled is_maximizing.
-        #  4) Undo the move and track the best score.
-        #  5) Return max score when is_maximizing is True, min score otherwise.
+        i = 0
+        if is_maximizing:
+            best = -float('inf')
+            while i < 9:
+                if board[i] == "":
+                    board[i] = self.bot  # try bot move
+                    best = max(best, self.minimax(board, depth + 1, False))
+                    board[i] = ""  # undo move
+                    i += 1
+            return best
+
         raise NotImplementedError(
             "Minimax placeholder: implement the recursive search here."
         )
